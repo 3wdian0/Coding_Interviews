@@ -64,6 +64,7 @@ void circle(ListNode *pHead){
         if(p1==p2){
             cout<<p1->val<<endl;
             node = p1;
+            break;
         }
     }
     p1 = pHead;
@@ -93,6 +94,7 @@ int main(int argc, char * argv[]){
     pHead->next->next->next->next       = new ListNode(5);
     pHead->next->next->next->next->next             = new ListNode(6);
     pHead->next->next->next->next->next->next       = new ListNode(7);
+    pHead->next->next->next->next->next->next->next = pHead->next->next->next->next->next->next; // 测试通过
     pHead->next->next->next->next->next->next->next = pHead->next->next;
     circle(pHead);
     return 0;
