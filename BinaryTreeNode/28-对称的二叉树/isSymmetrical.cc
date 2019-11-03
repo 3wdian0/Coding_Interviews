@@ -1,97 +1,76 @@
 #include<iostream>
-#include<vector>
 #include<queue>
 
 using namespace std;
 
-struct TreeNode{
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-	TreeNode(int x): val(x), left(NULL), right(NULL) {}
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x): val(x), left(NULL), right(NULL) {}
 };
 
-void preorderTraversal(TreeNode * root){
-	if(root!=NULL){
-		cout<<root->val<<endl;
-		if(root->left){
-			preorderTraversal(root->left);
-		}
-		if(root->right){
-			preorderTraversal(root->right);
-		}
-	}
-}
-
-void levelOrderTraversal(TreeNode * root){
-	/*
-	 * 算法思路
-	 *
-	 *
-	 */
-	queue<TreeNode*> q1,q2;
-	if(root==NULL){
-		cout<<"node空"<<endl;
-		return;
-	}else{
-		q1.push(root);
-	}
-	while(!q1.empty())
-	{
-		cout<<q1.front()->val<<" ";
-		if(q1.front()->left!=NULL){
-			q2.push(q1.front()->left);
-		}
-		if(q1.front()->right!=NULL){
-			q2.push(q1.front()->right);
-		}
-		q1.pop();
-		if(q1.empty()){
-			cout<<endl;
-			queue<TreeNode*> t = q1;
-			q1 = q2;
-			q2 = t;
-		}
-
-	}
-
+void levelOrderTraversal(TreeNode *root){
+    if(root==NULL)
+        return;
+    queue<TreeNode *> q1;
+    queue<TreeNode *> q2;
+    q1.push(root);
+    while(!q1.empty()){
+        cout<<q1.front()->val<<" ";
+        if(q1.front()->left!=NULL)
+            q2.push(q1.front()->left);
+        if(q1.front()->right!=NULL)
+            q2.push(q1.front()->right);
+        q1.pop();
+        if(q1.empty()){
+            cout<<endl;
+            queue<TreeNode *> t = q2; q2 = q1; q1 = t;
+        }
+    }
 
 }
 
-void isSymmetrical(TreeNode *root){
-	/* 算法思路
-	 *
-	 *      1                   1
-	 *    /   \               /   \
-	 *   2     2             2     2
-	 *  / \   / \           / \   / \
-	 * 3   4 4   3         3   4 4   3
-	 *
-	 */
-	if(root==NULL){
-		return;
-	}
+bool isSymmetricalCore(TreeNode *root1, TreeNode * root2);
 
-	TreeNode * t;
-	t = root->left;
-	root->left = root->right;
-	root->right = t;
-	isSymmetrical(root->left);
-	isSymmetrical(root->right);
+bool isSymmetrical(TreeNode *root){
+    /*
+     * 算法思路:
+     * 1、前序遍历 : 根节点 左节点 右节点
+     * 2、前序遍历': 根节点 右节点 左节点
+     * 3、root1 root 2
+     */
+     return isSymmetricalCore(root,root);
 }
-int main(int argc, char * argv[]){
-	TreeNode * root = new TreeNode(1);
-	root->left      = new TreeNode(2);
-	root->right     = new TreeNode(3);
-	root->left->left      = new TreeNode(4);
-	root->left->right     = new TreeNode(5);
-	root->right->left     = new TreeNode(6);
-	//root->right->right    = new TreeNode(7);
-	//preorderTraversal(root);
-	//TreeNode * root1;
-	//levelOrderTraversal(root1);
-	levelOrderTraversal(root);
-	isSymmetrical(root);
-	levelOrderTraversal(root);
-	return 0;
+
+bool isSymmetricalCore(TreeNode *root1, TreeNode *root2){
+    if(root1==NULL and root2!=NULL)
+        return false;
+    if(root1!=NULL and root2==NULL)
+        return false;
+    if(root1==NULL and root2==NULL)
+        return true;
+    if(root1->val==root2->val and isSymmetricalCore(root1->left,root2->right))
+        return true;
+
+}
+int main(int argc, char *argv[]) {
+    TreeNode * root = new TreeNode(1);
+    root->left      = new TreeNode(2);
+    root->right     = new TreeNode(3);
+
+    root->left->left= new TreeNode(4);
+    root->left->right=new TreeNode(5);
+
+    root->right->left=new TreeNode(6);
+    root->right->right=new TreeNode(7);
+    levelOrderTraversal(root);
+
+
+    root->left       = new TreeNode(2); root->right       = new TreeNode(2);
+    //root->left->left = new TreeNode(3); root->left->right = new TreeNode(4); root->right->left = new TreeNode(4);root->right->right = new TreeNode(3);
+    root->left->left = NULL           ; root->left->right = new TreeNode(4); root->right->left = new TreeNode(4);root->right->right = NULL            ;
+    levelOrderTraversal(root);
+    cout<<isSymmetrical(root)<<endl;
+    return 0;
 }
