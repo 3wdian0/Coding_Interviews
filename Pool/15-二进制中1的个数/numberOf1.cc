@@ -40,9 +40,32 @@ int method1(int x){
         n++;
     return n;
 }
-
+int method2(int x){
+    /*
+     * 先判断整数的二进制表示的最右边是不是1
+     * 判断完最右边，整数右移一位，此时，最右边第二位，变成了最右边第一位
+     * 
+     * 判断最右边第一位是不是1方法：把整数和1做 与运算 。
+     * 注：负数右移会怎么样
+     */
+    int n = 0;
+    while(x){
+        if(x & 1){
+            n++;
+        }
+        x = x>>1;
+    }
+    return n;
+}
 int main(int argc, char *argv[]){
     binary(18);
     cout<<method1(18)<<endl;
+    cout<<method2(18)<<endl;
+    cout<<(18)<<" ";binary(18);
+    cout<<(18>>1)<<"  ";binary(18>>1);
+    cout<<(18>>1>>1)<<"  ";binary(18>>1>>1);
+    cout<<(18<<1)<<" ";binary(18<<1);
+    cout<<"(18 & 1)="<<(18 & 1)<<" ";binary(18&1);
+    cout<<"( 9 & 1)="<<(9 & 1)<<" ";binary(18&1);
     return 0;
 }
