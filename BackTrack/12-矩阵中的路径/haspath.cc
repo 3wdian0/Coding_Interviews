@@ -18,9 +18,9 @@ bool hasPathCore(vector<vector<char> > &matrix, int i, int j, int &length, vecto
 bool hasPath(vector<vector<char> > matrix, string str){
     // visited 标记
     vector<vector<bool> > visited;
-    for(int i=0; i<3; i++){
+    for(int i=0; i<matrix.size(); i++){
         vector<bool> t;
-         for(int j=0; j<4; j++){
+         for(int j=0; j<matrix[0].size(); j++){
             t.push_back(false);
         }
         visited.push_back(t);
@@ -30,13 +30,13 @@ bool hasPath(vector<vector<char> > matrix, string str){
     for(int i=0; i<matrix.size(); i++){
         for(int j=0; j<matrix[0].size(); j++){
             if(hasPathCore(matrix,i,j,length,visited,str)){
-                cout<<"找到"<<str<<endl;
+                cout<<"  找到:"<<str<<endl;
                 return true;
             }
         }
     }
 
-    cout<<"没找到"<<str<<endl;
+    cout<<"没找到:"<<str<<endl;
     return false;
 }
 
