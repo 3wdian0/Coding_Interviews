@@ -32,13 +32,15 @@ bool check(int i, int j, vector<vector<bool> > &visited, int k){
 int movingCountCore(int i, int j, vector<vector<bool> > &visited, int k){
     int count = 0;
     if(check(i,j,visited, k)){
+        // 找到一个, 即count加1
         visited[i][j] = true;
-        count = 1+movingCountCore(i+1,j,visited,k)+movingCountCore(i,j+1,visited,k)+movingCountCore(i-1,j,visited,k)+movingCountCore(i,j-1,visited,k);
+        count = 1 + movingCountCore(i+1,j,visited,k)+movingCountCore(i,j+1,visited,k)+movingCountCore(i-1,j,visited,k)+movingCountCore(i,j-1,visited,k);
     }
     return count;
 }
 
 int movingCount(int m, int n){
+    // visited 标记矩阵
     vector<vector<bool> > visited;
     for(int i=0; i<m; i++){
         vector<bool> t;
@@ -47,6 +49,7 @@ int movingCount(int m, int n){
         }
         visited.push_back(t);
     }
+    // 从起点<0,0>开始回溯
     int count = movingCountCore(0,0,visited,18);
 
     return count;

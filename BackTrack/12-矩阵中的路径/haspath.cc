@@ -16,7 +16,7 @@ void _print(vector<vector<char> > matrix){
 bool hasPathCore(vector<vector<char> > &matrix, int i, int j, int &length, vector<vector<bool> > visited, string &str);
 
 bool hasPath(vector<vector<char> > matrix, string str){
-    // visited 标记
+    // visited 标记矩阵
     vector<vector<bool> > visited;
     for(int i=0; i<matrix.size(); i++){
         vector<bool> t;
@@ -27,25 +27,27 @@ bool hasPath(vector<vector<char> > matrix, string str){
     }
     // 记录当前在矩阵中找到的字符串长度
     int length = 0;
+    // 从起点<0,0>开始回溯
     for(int i=0; i<matrix.size(); i++){
         for(int j=0; j<matrix[0].size(); j++){
             if(hasPathCore(matrix,i,j,length,visited,str)){
                 cout<<"  找到:"<<str<<endl;
-                return true;
+                return true; // 找到在for中结束
             }
         }
     }
 
     cout<<"没找到:"<<str<<endl;
-    return false;
+    return false; //  在for中没结束, 即没找到
 }
 
 bool hasPathCore(vector<vector<char> > &matrix, int i, int j, int &length, vector<vector<bool> > visited, string &str){
     if(str[length]=='\0'){
-        // 停止条件
+        // important: 停止条件
         return true;
     }
 
+    // 默认为false
     bool tag = false;
     if(i<matrix.size() && j<matrix[0].size() && i>=0 && j>=0 && str[length]==matrix[i][j] && visited[i][j]==false){
         visited[i][j] = true;
