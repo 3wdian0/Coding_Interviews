@@ -21,7 +21,7 @@ using namespace std;
 
 int maxProductAfterCutting_dynamicSolution(int n){
     vector<int> num ;
-    for(int i = 0; i<=5; i++){
+    for(int i = 0; i<=n; i++){
         num.push_back(1);
     }
     /*
@@ -41,6 +41,16 @@ int maxProductAfterCutting_dynamicSolution(int n){
 
     return num[n];
 }
+int fun(int n){
+    if(n<=1)
+        return 1;
+    int q=n;
+    for(int i=1;i<n;i++){
+        q=max(q, fun(i)*fun(n-i))
+    }
+    return q;
+
+}
 int main(int argc, char * argv []) {
     int i;
     i=1;cout<<i<<"->"<<maxProductAfterCutting_dynamicSolution(i)<<endl;
@@ -49,5 +59,7 @@ int main(int argc, char * argv []) {
     i=4;cout<<i<<"->"<<maxProductAfterCutting_dynamicSolution(i)<<endl;
     i=5;cout<<i<<"->"<<maxProductAfterCutting_dynamicSolution(i)<<endl;
     i=8;cout<<i<<"->"<<maxProductAfterCutting_dynamicSolution(i)<<endl;
+    cout<<"递归法";
+    cout<<i<<"->"<<fun(i)<<endl;
     return 0;
 }
